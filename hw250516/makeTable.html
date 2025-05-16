@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>자리 배치도</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      display: inline-block;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 20px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    td {
+      border: 1px solid #333;
+      width: 50px;
+      height: 50px;
+      text-align: center;
+      vertical-align: middle;
+      font-size: 16px;
+    }
+    input {
+      width: 80px;
+      padding: 5px;
+      margin: 5px;
+    }
+    button {
+      padding: 6px 12px;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>자리 배치도 생성기</h2>
+
+    <p>
+      참석자 수: <input type="number" id="total" min="1">
+      한 줄에 앉을 사람 수: <input type="number" id="perRow" min="1">
+    </p>
+    <button onclick="generateTable()">생성</button>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function generateTable() {
+      const total = parseInt(document.getElementById("total").value);
+      const perRow = parseInt(document.getElementById("perRow").value);
+      const result = document.getElementById("result");
+      
+      if (isNaN(total) || isNaN(perRow) || total < 1 || perRow < 1) {
+        result.innerHTML = "<p>올바른 숫자를 입력하세요.</p>";
+        return;
+      }
+
+      let html = "<table>";
+      let seat = 1;
+      const rows = Math.ceil(total / perRow);
+
+      for (let i = 0; i < rows; i++) {
+        html += "<tr>";
+        for (let j = 0; j < perRow; j++) {
+          if (seat <= total) {
+            html += `<td>${seat}</td>`;
+            seat++;
+          } else {
+            html += "<td></td>"; // 빈 자리
+          }
+        }
+        html += "</tr>";
+      }
+
+      html += "</table>";
+      result.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
